@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qimooc.mvc.base.dao.DepartmentMapper" >
+  <resultMap id="BaseResultMap" type="com.qimooc.mvc.base.model.Department" >
+    <id column="dept_id" property="dept_id" jdbcType="INTEGER" />
+    <result column="dept_name" property="dept_name" jdbcType="VARCHAR" />
+    <result column="parent_dept_id" property="parent_dept_id" jdbcType="INTEGER" />
+    <result column="site_id" property="site_id" jdbcType="INTEGER" />
+    <result column="dept_code" property="dept_code" jdbcType="VARCHAR" />
+    <result column="is_parent" property="is_parent" jdbcType="VARCHAR" />
+    <result column="level" property="level" jdbcType="INTEGER" />
+    <result column="display_order" property="display_order" jdbcType="INTEGER" />
+    <result column="created_by" property="created_by" jdbcType="INTEGER" />
+    <result column="create_date" property="create_date" jdbcType="TIMESTAMP" />
+    <result column="last_updated_by" property="last_updated_by" jdbcType="INTEGER" />
+    <result column="last_update_date" property="last_update_date" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    dept_id, dept_name, parent_dept_id, site_id, dept_code, is_parent, level, display_order, 
+    created_by, create_date, last_updated_by, last_update_date
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.qimooc.mvc.base.model.DepartmentCriteria" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from ut_department
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from ut_department
+    where dept_id = #{dept_id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from ut_department
+    where dept_id = #{dept_id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.qimooc.mvc.base.model.DepartmentCriteria" >
+    delete from ut_department
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.qimooc.mvc.base.model.Department" >
+    <selectKey resultType="java.lang.Integer" keyProperty="dept_id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into ut_department (dept_name, parent_dept_id, site_id, 
+      dept_code, is_parent, level, 
+      display_order, created_by, create_date, 
+      last_updated_by, last_update_date)
+    values (#{dept_name,jdbcType=VARCHAR}, #{parent_dept_id,jdbcType=INTEGER}, #{site_id,jdbcType=INTEGER}, 
+      #{dept_code,jdbcType=VARCHAR}, #{is_parent,jdbcType=VARCHAR}, #{level,jdbcType=INTEGER}, 
+      #{display_order,jdbcType=INTEGER}, #{created_by,jdbcType=INTEGER}, #{create_date,jdbcType=TIMESTAMP}, 
+      #{last_updated_by,jdbcType=INTEGER}, #{last_update_date,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qimooc.mvc.base.model.Department" >
+    <selectKey resultType="java.lang.Integer" keyProperty="dept_id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into ut_department
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="dept_name != null" >
+        dept_name,
+      </if>
+      <if test="parent_dept_id != null" >
+        parent_dept_id,
+      </if>
+      <if test="site_id != null" >
+        site_id,
+      </if>
+      <if test="dept_code != null" >
+        dept_code,
+      </if>
+      <if test="is_parent != null" >
+        is_parent,
+      </if>
+      <if test="level != null" >
+        level,
+      </if>
+      <if test="display_order != null" >
+        display_order,
+      </if>
+      <if test="created_by != null" >
+        created_by,
+      </if>
+      <if test="create_date != null" >
+        create_date,
+      </if>
+      <if test="last_updated_by != null" >
+        last_updated_by,
+      </if>
+      <if test="last_update_date != null" >
+        last_update_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="dept_name != null" >
+        #{dept_name,jdbcType=VARCHAR},
+      </if>
+      <if test="parent_dept_id != null" >
+        #{parent_dept_id,jdbcType=INTEGER},
+      </if>
+      <if test="site_id != null" >
+        #{site_id,jdbcType=INTEGER},
+      </if>
+      <if test="dept_code != null" >
+        #{dept_code,jdbcType=VARCHAR},
+      </if>
+      <if test="is_parent != null" >
+        #{is_parent,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null" >
+        #{level,jdbcType=INTEGER},
+      </if>
+      <if test="display_order != null" >
+        #{display_order,jdbcType=INTEGER},
+      </if>
+      <if test="created_by != null" >
+        #{created_by,jdbcType=INTEGER},
+      </if>
+      <if test="create_date != null" >
+        #{create_date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="last_updated_by != null" >
+        #{last_updated_by,jdbcType=INTEGER},
+      </if>
+      <if test="last_update_date != null" >
+        #{last_update_date,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.qimooc.mvc.base.model.DepartmentCriteria" resultType="java.lang.Integer" >
+    select count(*) from ut_department
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update ut_department
+    <set >
+      <if test="record.dept_id != null" >
+        dept_id = #{record.dept_id,jdbcType=INTEGER},
+      </if>
+      <if test="record.dept_name != null" >
+        dept_name = #{record.dept_name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.parent_dept_id != null" >
+        parent_dept_id = #{record.parent_dept_id,jdbcType=INTEGER},
+      </if>
+      <if test="record.site_id != null" >
+        site_id = #{record.site_id,jdbcType=INTEGER},
+      </if>
+      <if test="record.dept_code != null" >
+        dept_code = #{record.dept_code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.is_parent != null" >
+        is_parent = #{record.is_parent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.level != null" >
+        level = #{record.level,jdbcType=INTEGER},
+      </if>
+      <if test="record.display_order != null" >
+        display_order = #{record.display_order,jdbcType=INTEGER},
+      </if>
+      <if test="record.created_by != null" >
+        created_by = #{record.created_by,jdbcType=INTEGER},
+      </if>
+      <if test="record.create_date != null" >
+        create_date = #{record.create_date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.last_updated_by != null" >
+        last_updated_by = #{record.last_updated_by,jdbcType=INTEGER},
+      </if>
+      <if test="record.last_update_date != null" >
+        last_update_date = #{record.last_update_date,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update ut_department
+    set dept_id = #{record.dept_id,jdbcType=INTEGER},
+      dept_name = #{record.dept_name,jdbcType=VARCHAR},
+      parent_dept_id = #{record.parent_dept_id,jdbcType=INTEGER},
+      site_id = #{record.site_id,jdbcType=INTEGER},
+      dept_code = #{record.dept_code,jdbcType=VARCHAR},
+      is_parent = #{record.is_parent,jdbcType=VARCHAR},
+      level = #{record.level,jdbcType=INTEGER},
+      display_order = #{record.display_order,jdbcType=INTEGER},
+      created_by = #{record.created_by,jdbcType=INTEGER},
+      create_date = #{record.create_date,jdbcType=TIMESTAMP},
+      last_updated_by = #{record.last_updated_by,jdbcType=INTEGER},
+      last_update_date = #{record.last_update_date,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qimooc.mvc.base.model.Department" >
+    update ut_department
+    <set >
+      <if test="dept_name != null" >
+        dept_name = #{dept_name,jdbcType=VARCHAR},
+      </if>
+      <if test="parent_dept_id != null" >
+        parent_dept_id = #{parent_dept_id,jdbcType=INTEGER},
+      </if>
+      <if test="site_id != null" >
+        site_id = #{site_id,jdbcType=INTEGER},
+      </if>
+      <if test="dept_code != null" >
+        dept_code = #{dept_code,jdbcType=VARCHAR},
+      </if>
+      <if test="is_parent != null" >
+        is_parent = #{is_parent,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null" >
+        level = #{level,jdbcType=INTEGER},
+      </if>
+      <if test="display_order != null" >
+        display_order = #{display_order,jdbcType=INTEGER},
+      </if>
+      <if test="created_by != null" >
+        created_by = #{created_by,jdbcType=INTEGER},
+      </if>
+      <if test="create_date != null" >
+        create_date = #{create_date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="last_updated_by != null" >
+        last_updated_by = #{last_updated_by,jdbcType=INTEGER},
+      </if>
+      <if test="last_update_date != null" >
+        last_update_date = #{last_update_date,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where dept_id = #{dept_id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qimooc.mvc.base.model.Department" >
+    update ut_department
+    set dept_name = #{dept_name,jdbcType=VARCHAR},
+      parent_dept_id = #{parent_dept_id,jdbcType=INTEGER},
+      site_id = #{site_id,jdbcType=INTEGER},
+      dept_code = #{dept_code,jdbcType=VARCHAR},
+      is_parent = #{is_parent,jdbcType=VARCHAR},
+      level = #{level,jdbcType=INTEGER},
+      display_order = #{display_order,jdbcType=INTEGER},
+      created_by = #{created_by,jdbcType=INTEGER},
+      create_date = #{create_date,jdbcType=TIMESTAMP},
+      last_updated_by = #{last_updated_by,jdbcType=INTEGER},
+      last_update_date = #{last_update_date,jdbcType=TIMESTAMP}
+    where dept_id = #{dept_id,jdbcType=INTEGER}
+  </update>
+</mapper>

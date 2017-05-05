@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+	<!-- 数据库驱动 -->
+	<context id="MysqlTest" targetRuntime="MyBatis3">
+		<!-- 实体类内生成Equal和HashCode 方法 -->
+		<plugin type="org.mybatis.generator.plugins.RenameExampleClassPlugin">
+			<!-- Example 重命名为 Criteria -->
+			<property name="searchString" value="Example$" />
+			<property name="replaceString" value="Criteria" />
+		</plugin>
+		<commentGenerator>
+			<!-- 是否去除自动生成注释代时间戳 true：是 ： false:否 -->
+			<property name="suppressDate" value="flase" />
+			<!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+			<property name="suppressAllComments" value="true" />
+		</commentGenerator>
+		<!-- 数据库链接URL，用户名、密码 -->
+		<!-- 
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://mooc.qimooc.net:3308/dbprod4t" userId="dataprod4t"
+			password="mysqlprod">
+		</jdbcConnection>
+		 -->
+		 <jdbcConnection driverClass="${driverClass}"
+						connectionURL="${connectionURL}"
+						userId="${userId}"
+						password="${password}">
+		</jdbcConnection>
+		<!-- 是否使用bigDecimal， false可自动转化以下类型（Long, Integer, Short, etc.） -->
+		<javaTypeResolver>
+			<property name="forceBigDecimals" value="false" />
+		</javaTypeResolver>
+		<!-- 生成模型的包名和位置 -->
+		<javaModelGenerator targetPackage="${modelPackage}"
+			targetProject="${src_main_java}">
+			<!-- enableSubPackages:是否让schema作为包的后缀 -->
+			<property name="enableSubPackages" value="true" />
+			<!-- 从数据库返回的值被清理前后的空格 -->
+			<property name="trimStrings" value="true" />
+			<property name="rootClass" value="${rootClass}" />
+		</javaModelGenerator>
+		<!-- 生成映射文件的包名和位置 -->
+		<sqlMapGenerator targetPackage="${sqlMapperPackage}"
+			targetProject="${src_main_java}">
+			<property name="enableSubPackages" value="true" />
+		</sqlMapGenerator>
+		<!-- 生成DAO的包名和位置 -->
+		<javaClientGenerator type="XMLMAPPER"
+			targetPackage="${mapperPackage}" 
+			targetProject="${src_main_java}">
+			<property name="enableSubPackages" value="true" />
+		</javaClientGenerator>
+		<!-- 要生成的表 tableName是数据库中的表名或视图名 domainObjectName是实体类名 -->
+
+		<table tableName="ut_user"
+			domainObjectName="User" enableCountByExample="true"
+			enableUpdateByExample="true" enableDeleteByExample="true"
+			enableSelectByExample="true" selectByExampleQueryId="true">
+			<property name="useActualColumnNames" value="true" />
+			<generatedKey column="user_id" sqlStatement="Mysql"
+				identity="true" />
+		</table>
+		<table tableName="ut_content"
+			domainObjectName="Content" enableCountByExample="true"
+			enableUpdateByExample="true" enableDeleteByExample="true"
+			enableSelectByExample="true" selectByExampleQueryId="true">
+			<property name="useActualColumnNames" value="true" />
+			<generatedKey column="content_id" sqlStatement="Mysql"
+				identity="true" />
+		</table>
+		<table tableName="ut_department"
+			domainObjectName="Department" enableCountByExample="true"
+			enableUpdateByExample="true" enableDeleteByExample="true"
+			enableSelectByExample="true" selectByExampleQueryId="true">
+			<property name="useActualColumnNames" value="true" />
+			<generatedKey column="dept_id" sqlStatement="Mysql"
+				identity="true" />
+		</table>
+	</context>
+</generatorConfiguration>

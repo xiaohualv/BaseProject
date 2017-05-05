@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="
+    http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+    http://www.springframework.org/schema/tx   http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+    http://www.springframework.org/schema/context   http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+	<!-- 引入配置文件 -->
+	<!-- <context:property-placeholder location="classpath:dbconfig.properties"
+		ignore-unresolvable="true" /> -->
+
+	<!-- 使用alibab Druid 数据源 -->
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
+		init-method="init" destroy-method="close">
+		<!-- 基本属性 url、user、password -->
+		<property name="url" value="${db.connectionURL}" />
+		<property name="username" value="${db.username}" />
+		<property name="password" value="${db.password}" />
+
+		<!-- 配置初始化大小、最小、最大 -->
+		<property name="initialSize" value="${db.pool.initialSize}" />
+		<property name="minIdle" value="${db.pool.minIdle}" />
+		<property name="maxActive" value="${db.pool.maxActive}" />
+
+		<!-- 配置获取连接等待超时的时间 -->
+		<property name="maxWait" value="${db.pool.maxWait}" />
+
+		<!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+		<property name="timeBetweenEvictionRunsMillis" value="${db.pool.timeBetweenEvictionRunsMillis}" />
+
+		<!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+		<property name="minEvictableIdleTimeMillis" value="${db.pool.minEvictableIdleTimeMillis}" />
+
+		<property name="validationQuery" value="SELECT 'x'" />
+		<property name="testWhileIdle" value="true" />
+		<property name="testOnBorrow" value="false" />
+		<property name="testOnReturn" value="false" />
+
+		<!-- 打开PSCache，并且指定每个连接上PSCache的大小 如果用Oracle，则把poolPreparedStatements配置为true，mysql可以配置为false。分库分表较多的数据库，建议配置为false -->
+		<property name="poolPreparedStatements" value="false" />
+		<property name="maxPoolPreparedStatementPerConnectionSize"
+			value="${db.pool.maxPoolPreparedStatementPerConnectionSize}" />
+
+		<!-- 配置监控统计拦截的filters -->
+		<!-- druid配置监控统计拦截的filters -->
+		<property name="filters" value="config" />
+		<!-- connectProperties属性来打开mergeSql功能 -->
+		<property name="connectionProperties" value="config.decrypt=false" />
+	</bean>
+
+	<!-- 切换数据源 <bean id="dataSourceAdvice" class="com.qimooc.common.core.db.DataSourceAdvice"
+		/> <aop:config> <aop:advisor pointcut="execution(* com.qimooc.*.service..*Service.*(..))
+		|| execution(* com.qimooc.*.*.service..*Service.*(..))" advice-ref="dataSourceAdvice"
+		/> </aop:config> -->
+
+
+	<!-- (事务管理)transaction manager, use JtaTransactionManager for global tx -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<!-- 创建SqlSessionFactory，同时指定数据源 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="mapperLocations" value="classpath:/com/qimooc/**/mapping/**/*.xml" />
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<!-- 使用注解方式的事务 -->
+	<!-- <tx:annotation-driven transaction-manager="transactionManager" /> -->
+
+	<!-- Mapper接口所在包名，Spring会自动查找其下的Mapper -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.qimooc.*.dao,com.qimooc.*.*.dao,com.qimooc.mvc.*.dao" />
+	</bean>
+
+	<!-- 配置druid监控spring jdbc start -->
+	<bean id="druid-stat-interceptor"
+		class="com.alibaba.druid.support.spring.stat.DruidStatInterceptor" />
+	<bean id="druid-stat-pointcut" class="org.springframework.aop.support.JdkRegexpMethodPointcut"
+		scope="prototype">
+		<property name="patterns">
+			<list>
+				<value>com.qimooc.*.service.*</value>
+				<value>com.qimooc.*.dao.*</value>
+				<value>com.qimooc.*.*.service.*</value>
+				<value>com.qimooc.*.*.dao.*</value>
+				<value>com.qimooc.mvc.*.service.*.*</value>
+				<value>com.qimooc.mvc.*.dao.*.*</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- 使用配置文件方式的事务 -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="query*" read-only="true" propagation="SUPPORTS" />
+			<tx:method name="get*" read-only="true" propagation="SUPPORTS" />
+			<tx:method name="is*" read-only="true" propagation="SUPPORTS" />
+			<tx:method name="find*" read-only="true" propagation="SUPPORTS" />
+			<tx:method name="select*" read-only="true" propagation="SUPPORTS" />
+			<tx:method name="count*" read-only="true" propagation="SUPPORTS" />
+			<tx:method name="*" isolation="DEFAULT" />
+		</tx:attributes>
+	</tx:advice>
+
+	<!-- 配置druid监控spring jdbc end -->
+
+</beans>  

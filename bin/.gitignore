@@ -1,0 +1,8 @@
+/com/
+/config.properties
+/generatorConfig.properties
+/logback.xml
+/logback_all.xml
+/spring-config-mybatis.xml
+/spring-config.xml
+/spring-mvc.xml

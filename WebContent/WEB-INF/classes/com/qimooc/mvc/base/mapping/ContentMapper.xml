@@ -1,0 +1,734 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qimooc.mvc.base.dao.ContentMapper" >
+  <resultMap id="BaseResultMap" type="com.qimooc.mvc.base.model.Content" >
+    <id column="content_id" property="content_id" jdbcType="INTEGER" />
+    <result column="content_name" property="content_name" jdbcType="VARCHAR" />
+    <result column="content_code" property="content_code" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="site_id" property="site_id" jdbcType="INTEGER" />
+    <result column="dept_id" property="dept_id" jdbcType="INTEGER" />
+    <result column="shared_dept_id" property="shared_dept_id" jdbcType="INTEGER" />
+    <result column="source_site_id" property="source_site_id" jdbcType="INTEGER" />
+    <result column="source_content_id" property="source_content_id" jdbcType="INTEGER" />
+    <result column="resource_type" property="resource_type" jdbcType="CHAR" />
+    <result column="content_type" property="content_type" jdbcType="CHAR" />
+    <result column="start_date" property="start_date" jdbcType="TIMESTAMP" />
+    <result column="end_date" property="end_date" jdbcType="TIMESTAMP" />
+    <result column="img_url" property="img_url" jdbcType="VARCHAR" />
+    <result column="demo_start_id" property="demo_start_id" jdbcType="INTEGER" />
+    <result column="demo_start_url" property="demo_start_url" jdbcType="VARCHAR" />
+    <result column="duration" property="duration" jdbcType="INTEGER" />
+    <result column="lesson_periods" property="lesson_periods" jdbcType="DECIMAL" />
+    <result column="credits" property="credits" jdbcType="DECIMAL" />
+    <result column="language" property="language" jdbcType="VARCHAR" />
+    <result column="keywords" property="keywords" jdbcType="VARCHAR" />
+    <result column="is_classic" property="is_classic" jdbcType="CHAR" />
+    <result column="order_id" property="order_id" jdbcType="INTEGER" />
+    <result column="max_user_limit" property="max_user_limit" jdbcType="INTEGER" />
+    <result column="teacher_id" property="teacher_id" jdbcType="INTEGER" />
+    <result column="is_comment_enabled" property="is_comment_enabled" jdbcType="CHAR" />
+    <result column="access_client" property="access_client" jdbcType="CHAR" />
+    <result column="is_published" property="is_published" jdbcType="CHAR" />
+    <result column="is_deleted" property="is_deleted" jdbcType="CHAR" />
+    <result column="author" property="author" jdbcType="VARCHAR" />
+    <result column="copy_right" property="copy_right" jdbcType="VARCHAR" />
+    <result column="version" property="version" jdbcType="VARCHAR" />
+    <result column="create_type" property="create_type" jdbcType="CHAR" />
+    <result column="copied_content_id" property="copied_content_id" jdbcType="INTEGER" />
+    <result column="create_date" property="create_date" jdbcType="TIMESTAMP" />
+    <result column="created_by" property="created_by" jdbcType="INTEGER" />
+    <result column="last_update_date" property="last_update_date" jdbcType="TIMESTAMP" />
+    <result column="last_updated_by" property="last_updated_by" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    content_id, content_name, content_code, description, site_id, dept_id, shared_dept_id, 
+    source_site_id, source_content_id, resource_type, content_type, start_date, end_date, 
+    img_url, demo_start_id, demo_start_url, duration, lesson_periods, credits, language, 
+    keywords, is_classic, order_id, max_user_limit, teacher_id, is_comment_enabled, access_client, 
+    is_published, is_deleted, author, copy_right, version, create_type, copied_content_id, 
+    create_date, created_by, last_update_date, last_updated_by
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.qimooc.mvc.base.model.ContentCriteria" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from ut_content
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from ut_content
+    where content_id = #{content_id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from ut_content
+    where content_id = #{content_id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.qimooc.mvc.base.model.ContentCriteria" >
+    delete from ut_content
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.qimooc.mvc.base.model.Content" >
+    <selectKey resultType="java.lang.Integer" keyProperty="content_id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into ut_content (content_name, content_code, description, 
+      site_id, dept_id, shared_dept_id, 
+      source_site_id, source_content_id, resource_type, 
+      content_type, start_date, end_date, 
+      img_url, demo_start_id, demo_start_url, 
+      duration, lesson_periods, credits, 
+      language, keywords, is_classic, 
+      order_id, max_user_limit, teacher_id, 
+      is_comment_enabled, access_client, is_published, 
+      is_deleted, author, copy_right, 
+      version, create_type, copied_content_id, 
+      create_date, created_by, last_update_date, 
+      last_updated_by)
+    values (#{content_name,jdbcType=VARCHAR}, #{content_code,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{site_id,jdbcType=INTEGER}, #{dept_id,jdbcType=INTEGER}, #{shared_dept_id,jdbcType=INTEGER}, 
+      #{source_site_id,jdbcType=INTEGER}, #{source_content_id,jdbcType=INTEGER}, #{resource_type,jdbcType=CHAR}, 
+      #{content_type,jdbcType=CHAR}, #{start_date,jdbcType=TIMESTAMP}, #{end_date,jdbcType=TIMESTAMP}, 
+      #{img_url,jdbcType=VARCHAR}, #{demo_start_id,jdbcType=INTEGER}, #{demo_start_url,jdbcType=VARCHAR}, 
+      #{duration,jdbcType=INTEGER}, #{lesson_periods,jdbcType=DECIMAL}, #{credits,jdbcType=DECIMAL}, 
+      #{language,jdbcType=VARCHAR}, #{keywords,jdbcType=VARCHAR}, #{is_classic,jdbcType=CHAR}, 
+      #{order_id,jdbcType=INTEGER}, #{max_user_limit,jdbcType=INTEGER}, #{teacher_id,jdbcType=INTEGER}, 
+      #{is_comment_enabled,jdbcType=CHAR}, #{access_client,jdbcType=CHAR}, #{is_published,jdbcType=CHAR}, 
+      #{is_deleted,jdbcType=CHAR}, #{author,jdbcType=VARCHAR}, #{copy_right,jdbcType=VARCHAR}, 
+      #{version,jdbcType=VARCHAR}, #{create_type,jdbcType=CHAR}, #{copied_content_id,jdbcType=INTEGER}, 
+      #{create_date,jdbcType=TIMESTAMP}, #{created_by,jdbcType=INTEGER}, #{last_update_date,jdbcType=TIMESTAMP}, 
+      #{last_updated_by,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qimooc.mvc.base.model.Content" >
+    <selectKey resultType="java.lang.Integer" keyProperty="content_id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into ut_content
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="content_name != null" >
+        content_name,
+      </if>
+      <if test="content_code != null" >
+        content_code,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="site_id != null" >
+        site_id,
+      </if>
+      <if test="dept_id != null" >
+        dept_id,
+      </if>
+      <if test="shared_dept_id != null" >
+        shared_dept_id,
+      </if>
+      <if test="source_site_id != null" >
+        source_site_id,
+      </if>
+      <if test="source_content_id != null" >
+        source_content_id,
+      </if>
+      <if test="resource_type != null" >
+        resource_type,
+      </if>
+      <if test="content_type != null" >
+        content_type,
+      </if>
+      <if test="start_date != null" >
+        start_date,
+      </if>
+      <if test="end_date != null" >
+        end_date,
+      </if>
+      <if test="img_url != null" >
+        img_url,
+      </if>
+      <if test="demo_start_id != null" >
+        demo_start_id,
+      </if>
+      <if test="demo_start_url != null" >
+        demo_start_url,
+      </if>
+      <if test="duration != null" >
+        duration,
+      </if>
+      <if test="lesson_periods != null" >
+        lesson_periods,
+      </if>
+      <if test="credits != null" >
+        credits,
+      </if>
+      <if test="language != null" >
+        language,
+      </if>
+      <if test="keywords != null" >
+        keywords,
+      </if>
+      <if test="is_classic != null" >
+        is_classic,
+      </if>
+      <if test="order_id != null" >
+        order_id,
+      </if>
+      <if test="max_user_limit != null" >
+        max_user_limit,
+      </if>
+      <if test="teacher_id != null" >
+        teacher_id,
+      </if>
+      <if test="is_comment_enabled != null" >
+        is_comment_enabled,
+      </if>
+      <if test="access_client != null" >
+        access_client,
+      </if>
+      <if test="is_published != null" >
+        is_published,
+      </if>
+      <if test="is_deleted != null" >
+        is_deleted,
+      </if>
+      <if test="author != null" >
+        author,
+      </if>
+      <if test="copy_right != null" >
+        copy_right,
+      </if>
+      <if test="version != null" >
+        version,
+      </if>
+      <if test="create_type != null" >
+        create_type,
+      </if>
+      <if test="copied_content_id != null" >
+        copied_content_id,
+      </if>
+      <if test="create_date != null" >
+        create_date,
+      </if>
+      <if test="created_by != null" >
+        created_by,
+      </if>
+      <if test="last_update_date != null" >
+        last_update_date,
+      </if>
+      <if test="last_updated_by != null" >
+        last_updated_by,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="content_name != null" >
+        #{content_name,jdbcType=VARCHAR},
+      </if>
+      <if test="content_code != null" >
+        #{content_code,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="site_id != null" >
+        #{site_id,jdbcType=INTEGER},
+      </if>
+      <if test="dept_id != null" >
+        #{dept_id,jdbcType=INTEGER},
+      </if>
+      <if test="shared_dept_id != null" >
+        #{shared_dept_id,jdbcType=INTEGER},
+      </if>
+      <if test="source_site_id != null" >
+        #{source_site_id,jdbcType=INTEGER},
+      </if>
+      <if test="source_content_id != null" >
+        #{source_content_id,jdbcType=INTEGER},
+      </if>
+      <if test="resource_type != null" >
+        #{resource_type,jdbcType=CHAR},
+      </if>
+      <if test="content_type != null" >
+        #{content_type,jdbcType=CHAR},
+      </if>
+      <if test="start_date != null" >
+        #{start_date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="end_date != null" >
+        #{end_date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="img_url != null" >
+        #{img_url,jdbcType=VARCHAR},
+      </if>
+      <if test="demo_start_id != null" >
+        #{demo_start_id,jdbcType=INTEGER},
+      </if>
+      <if test="demo_start_url != null" >
+        #{demo_start_url,jdbcType=VARCHAR},
+      </if>
+      <if test="duration != null" >
+        #{duration,jdbcType=INTEGER},
+      </if>
+      <if test="lesson_periods != null" >
+        #{lesson_periods,jdbcType=DECIMAL},
+      </if>
+      <if test="credits != null" >
+        #{credits,jdbcType=DECIMAL},
+      </if>
+      <if test="language != null" >
+        #{language,jdbcType=VARCHAR},
+      </if>
+      <if test="keywords != null" >
+        #{keywords,jdbcType=VARCHAR},
+      </if>
+      <if test="is_classic != null" >
+        #{is_classic,jdbcType=CHAR},
+      </if>
+      <if test="order_id != null" >
+        #{order_id,jdbcType=INTEGER},
+      </if>
+      <if test="max_user_limit != null" >
+        #{max_user_limit,jdbcType=INTEGER},
+      </if>
+      <if test="teacher_id != null" >
+        #{teacher_id,jdbcType=INTEGER},
+      </if>
+      <if test="is_comment_enabled != null" >
+        #{is_comment_enabled,jdbcType=CHAR},
+      </if>
+      <if test="access_client != null" >
+        #{access_client,jdbcType=CHAR},
+      </if>
+      <if test="is_published != null" >
+        #{is_published,jdbcType=CHAR},
+      </if>
+      <if test="is_deleted != null" >
+        #{is_deleted,jdbcType=CHAR},
+      </if>
+      <if test="author != null" >
+        #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="copy_right != null" >
+        #{copy_right,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="create_type != null" >
+        #{create_type,jdbcType=CHAR},
+      </if>
+      <if test="copied_content_id != null" >
+        #{copied_content_id,jdbcType=INTEGER},
+      </if>
+      <if test="create_date != null" >
+        #{create_date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="created_by != null" >
+        #{created_by,jdbcType=INTEGER},
+      </if>
+      <if test="last_update_date != null" >
+        #{last_update_date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="last_updated_by != null" >
+        #{last_updated_by,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.qimooc.mvc.base.model.ContentCriteria" resultType="java.lang.Integer" >
+    select count(*) from ut_content
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update ut_content
+    <set >
+      <if test="record.content_id != null" >
+        content_id = #{record.content_id,jdbcType=INTEGER},
+      </if>
+      <if test="record.content_name != null" >
+        content_name = #{record.content_name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.content_code != null" >
+        content_code = #{record.content_code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.description != null" >
+        description = #{record.description,jdbcType=VARCHAR},
+      </if>
+      <if test="record.site_id != null" >
+        site_id = #{record.site_id,jdbcType=INTEGER},
+      </if>
+      <if test="record.dept_id != null" >
+        dept_id = #{record.dept_id,jdbcType=INTEGER},
+      </if>
+      <if test="record.shared_dept_id != null" >
+        shared_dept_id = #{record.shared_dept_id,jdbcType=INTEGER},
+      </if>
+      <if test="record.source_site_id != null" >
+        source_site_id = #{record.source_site_id,jdbcType=INTEGER},
+      </if>
+      <if test="record.source_content_id != null" >
+        source_content_id = #{record.source_content_id,jdbcType=INTEGER},
+      </if>
+      <if test="record.resource_type != null" >
+        resource_type = #{record.resource_type,jdbcType=CHAR},
+      </if>
+      <if test="record.content_type != null" >
+        content_type = #{record.content_type,jdbcType=CHAR},
+      </if>
+      <if test="record.start_date != null" >
+        start_date = #{record.start_date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.end_date != null" >
+        end_date = #{record.end_date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.img_url != null" >
+        img_url = #{record.img_url,jdbcType=VARCHAR},
+      </if>
+      <if test="record.demo_start_id != null" >
+        demo_start_id = #{record.demo_start_id,jdbcType=INTEGER},
+      </if>
+      <if test="record.demo_start_url != null" >
+        demo_start_url = #{record.demo_start_url,jdbcType=VARCHAR},
+      </if>
+      <if test="record.duration != null" >
+        duration = #{record.duration,jdbcType=INTEGER},
+      </if>
+      <if test="record.lesson_periods != null" >
+        lesson_periods = #{record.lesson_periods,jdbcType=DECIMAL},
+      </if>
+      <if test="record.credits != null" >
+        credits = #{record.credits,jdbcType=DECIMAL},
+      </if>
+      <if test="record.language != null" >
+        language = #{record.language,jdbcType=VARCHAR},
+      </if>
+      <if test="record.keywords != null" >
+        keywords = #{record.keywords,jdbcType=VARCHAR},
+      </if>
+      <if test="record.is_classic != null" >
+        is_classic = #{record.is_classic,jdbcType=CHAR},
+      </if>
+      <if test="record.order_id != null" >
+        order_id = #{record.order_id,jdbcType=INTEGER},
+      </if>
+      <if test="record.max_user_limit != null" >
+        max_user_limit = #{record.max_user_limit,jdbcType=INTEGER},
+      </if>
+      <if test="record.teacher_id != null" >
+        teacher_id = #{record.teacher_id,jdbcType=INTEGER},
+      </if>
+      <if test="record.is_comment_enabled != null" >
+        is_comment_enabled = #{record.is_comment_enabled,jdbcType=CHAR},
+      </if>
+      <if test="record.access_client != null" >
+        access_client = #{record.access_client,jdbcType=CHAR},
+      </if>
+      <if test="record.is_published != null" >
+        is_published = #{record.is_published,jdbcType=CHAR},
+      </if>
+      <if test="record.is_deleted != null" >
+        is_deleted = #{record.is_deleted,jdbcType=CHAR},
+      </if>
+      <if test="record.author != null" >
+        author = #{record.author,jdbcType=VARCHAR},
+      </if>
+      <if test="record.copy_right != null" >
+        copy_right = #{record.copy_right,jdbcType=VARCHAR},
+      </if>
+      <if test="record.version != null" >
+        version = #{record.version,jdbcType=VARCHAR},
+      </if>
+      <if test="record.create_type != null" >
+        create_type = #{record.create_type,jdbcType=CHAR},
+      </if>
+      <if test="record.copied_content_id != null" >
+        copied_content_id = #{record.copied_content_id,jdbcType=INTEGER},
+      </if>
+      <if test="record.create_date != null" >
+        create_date = #{record.create_date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.created_by != null" >
+        created_by = #{record.created_by,jdbcType=INTEGER},
+      </if>
+      <if test="record.last_update_date != null" >
+        last_update_date = #{record.last_update_date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.last_updated_by != null" >
+        last_updated_by = #{record.last_updated_by,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update ut_content
+    set content_id = #{record.content_id,jdbcType=INTEGER},
+      content_name = #{record.content_name,jdbcType=VARCHAR},
+      content_code = #{record.content_code,jdbcType=VARCHAR},
+      description = #{record.description,jdbcType=VARCHAR},
+      site_id = #{record.site_id,jdbcType=INTEGER},
+      dept_id = #{record.dept_id,jdbcType=INTEGER},
+      shared_dept_id = #{record.shared_dept_id,jdbcType=INTEGER},
+      source_site_id = #{record.source_site_id,jdbcType=INTEGER},
+      source_content_id = #{record.source_content_id,jdbcType=INTEGER},
+      resource_type = #{record.resource_type,jdbcType=CHAR},
+      content_type = #{record.content_type,jdbcType=CHAR},
+      start_date = #{record.start_date,jdbcType=TIMESTAMP},
+      end_date = #{record.end_date,jdbcType=TIMESTAMP},
+      img_url = #{record.img_url,jdbcType=VARCHAR},
+      demo_start_id = #{record.demo_start_id,jdbcType=INTEGER},
+      demo_start_url = #{record.demo_start_url,jdbcType=VARCHAR},
+      duration = #{record.duration,jdbcType=INTEGER},
+      lesson_periods = #{record.lesson_periods,jdbcType=DECIMAL},
+      credits = #{record.credits,jdbcType=DECIMAL},
+      language = #{record.language,jdbcType=VARCHAR},
+      keywords = #{record.keywords,jdbcType=VARCHAR},
+      is_classic = #{record.is_classic,jdbcType=CHAR},
+      order_id = #{record.order_id,jdbcType=INTEGER},
+      max_user_limit = #{record.max_user_limit,jdbcType=INTEGER},
+      teacher_id = #{record.teacher_id,jdbcType=INTEGER},
+      is_comment_enabled = #{record.is_comment_enabled,jdbcType=CHAR},
+      access_client = #{record.access_client,jdbcType=CHAR},
+      is_published = #{record.is_published,jdbcType=CHAR},
+      is_deleted = #{record.is_deleted,jdbcType=CHAR},
+      author = #{record.author,jdbcType=VARCHAR},
+      copy_right = #{record.copy_right,jdbcType=VARCHAR},
+      version = #{record.version,jdbcType=VARCHAR},
+      create_type = #{record.create_type,jdbcType=CHAR},
+      copied_content_id = #{record.copied_content_id,jdbcType=INTEGER},
+      create_date = #{record.create_date,jdbcType=TIMESTAMP},
+      created_by = #{record.created_by,jdbcType=INTEGER},
+      last_update_date = #{record.last_update_date,jdbcType=TIMESTAMP},
+      last_updated_by = #{record.last_updated_by,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qimooc.mvc.base.model.Content" >
+    update ut_content
+    <set >
+      <if test="content_name != null" >
+        content_name = #{content_name,jdbcType=VARCHAR},
+      </if>
+      <if test="content_code != null" >
+        content_code = #{content_code,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="site_id != null" >
+        site_id = #{site_id,jdbcType=INTEGER},
+      </if>
+      <if test="dept_id != null" >
+        dept_id = #{dept_id,jdbcType=INTEGER},
+      </if>
+      <if test="shared_dept_id != null" >
+        shared_dept_id = #{shared_dept_id,jdbcType=INTEGER},
+      </if>
+      <if test="source_site_id != null" >
+        source_site_id = #{source_site_id,jdbcType=INTEGER},
+      </if>
+      <if test="source_content_id != null" >
+        source_content_id = #{source_content_id,jdbcType=INTEGER},
+      </if>
+      <if test="resource_type != null" >
+        resource_type = #{resource_type,jdbcType=CHAR},
+      </if>
+      <if test="content_type != null" >
+        content_type = #{content_type,jdbcType=CHAR},
+      </if>
+      <if test="start_date != null" >
+        start_date = #{start_date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="end_date != null" >
+        end_date = #{end_date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="img_url != null" >
+        img_url = #{img_url,jdbcType=VARCHAR},
+      </if>
+      <if test="demo_start_id != null" >
+        demo_start_id = #{demo_start_id,jdbcType=INTEGER},
+      </if>
+      <if test="demo_start_url != null" >
+        demo_start_url = #{demo_start_url,jdbcType=VARCHAR},
+      </if>
+      <if test="duration != null" >
+        duration = #{duration,jdbcType=INTEGER},
+      </if>
+      <if test="lesson_periods != null" >
+        lesson_periods = #{lesson_periods,jdbcType=DECIMAL},
+      </if>
+      <if test="credits != null" >
+        credits = #{credits,jdbcType=DECIMAL},
+      </if>
+      <if test="language != null" >
+        language = #{language,jdbcType=VARCHAR},
+      </if>
+      <if test="keywords != null" >
+        keywords = #{keywords,jdbcType=VARCHAR},
+      </if>
+      <if test="is_classic != null" >
+        is_classic = #{is_classic,jdbcType=CHAR},
+      </if>
+      <if test="order_id != null" >
+        order_id = #{order_id,jdbcType=INTEGER},
+      </if>
+      <if test="max_user_limit != null" >
+        max_user_limit = #{max_user_limit,jdbcType=INTEGER},
+      </if>
+      <if test="teacher_id != null" >
+        teacher_id = #{teacher_id,jdbcType=INTEGER},
+      </if>
+      <if test="is_comment_enabled != null" >
+        is_comment_enabled = #{is_comment_enabled,jdbcType=CHAR},
+      </if>
+      <if test="access_client != null" >
+        access_client = #{access_client,jdbcType=CHAR},
+      </if>
+      <if test="is_published != null" >
+        is_published = #{is_published,jdbcType=CHAR},
+      </if>
+      <if test="is_deleted != null" >
+        is_deleted = #{is_deleted,jdbcType=CHAR},
+      </if>
+      <if test="author != null" >
+        author = #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="copy_right != null" >
+        copy_right = #{copy_right,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        version = #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="create_type != null" >
+        create_type = #{create_type,jdbcType=CHAR},
+      </if>
+      <if test="copied_content_id != null" >
+        copied_content_id = #{copied_content_id,jdbcType=INTEGER},
+      </if>
+      <if test="create_date != null" >
+        create_date = #{create_date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="created_by != null" >
+        created_by = #{created_by,jdbcType=INTEGER},
+      </if>
+      <if test="last_update_date != null" >
+        last_update_date = #{last_update_date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="last_updated_by != null" >
+        last_updated_by = #{last_updated_by,jdbcType=INTEGER},
+      </if>
+    </set>
+    where content_id = #{content_id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qimooc.mvc.base.model.Content" >
+    update ut_content
+    set content_name = #{content_name,jdbcType=VARCHAR},
+      content_code = #{content_code,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      site_id = #{site_id,jdbcType=INTEGER},
+      dept_id = #{dept_id,jdbcType=INTEGER},
+      shared_dept_id = #{shared_dept_id,jdbcType=INTEGER},
+      source_site_id = #{source_site_id,jdbcType=INTEGER},
+      source_content_id = #{source_content_id,jdbcType=INTEGER},
+      resource_type = #{resource_type,jdbcType=CHAR},
+      content_type = #{content_type,jdbcType=CHAR},
+      start_date = #{start_date,jdbcType=TIMESTAMP},
+      end_date = #{end_date,jdbcType=TIMESTAMP},
+      img_url = #{img_url,jdbcType=VARCHAR},
+      demo_start_id = #{demo_start_id,jdbcType=INTEGER},
+      demo_start_url = #{demo_start_url,jdbcType=VARCHAR},
+      duration = #{duration,jdbcType=INTEGER},
+      lesson_periods = #{lesson_periods,jdbcType=DECIMAL},
+      credits = #{credits,jdbcType=DECIMAL},
+      language = #{language,jdbcType=VARCHAR},
+      keywords = #{keywords,jdbcType=VARCHAR},
+      is_classic = #{is_classic,jdbcType=CHAR},
+      order_id = #{order_id,jdbcType=INTEGER},
+      max_user_limit = #{max_user_limit,jdbcType=INTEGER},
+      teacher_id = #{teacher_id,jdbcType=INTEGER},
+      is_comment_enabled = #{is_comment_enabled,jdbcType=CHAR},
+      access_client = #{access_client,jdbcType=CHAR},
+      is_published = #{is_published,jdbcType=CHAR},
+      is_deleted = #{is_deleted,jdbcType=CHAR},
+      author = #{author,jdbcType=VARCHAR},
+      copy_right = #{copy_right,jdbcType=VARCHAR},
+      version = #{version,jdbcType=VARCHAR},
+      create_type = #{create_type,jdbcType=CHAR},
+      copied_content_id = #{copied_content_id,jdbcType=INTEGER},
+      create_date = #{create_date,jdbcType=TIMESTAMP},
+      created_by = #{created_by,jdbcType=INTEGER},
+      last_update_date = #{last_update_date,jdbcType=TIMESTAMP},
+      last_updated_by = #{last_updated_by,jdbcType=INTEGER}
+    where content_id = #{content_id,jdbcType=INTEGER}
+  </update>
+</mapper>

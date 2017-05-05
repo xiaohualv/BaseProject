@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qimooc.mvc.demo.dao.UserDemoMapper">
+
+	<resultMap id="UserResultMap" type="com.qimooc.mvc.base.model.User">
+		<result column="user_id" property="user_id" jdbcType="INTEGER" />
+		<result column="user_name" property="user_name" jdbcType="VARCHAR" />
+		<result column="real_name" property="real_name" jdbcType="VARCHAR" />
+		<result column="mobile_phone" property="mobile_phone" jdbcType="VARCHAR" />
+		<result column="site_id" property="site_id" jdbcType="INTEGER" />
+		<result column="email" property="email" jdbcType="VARCHAR" />
+		<result column="gender" property="gender" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="BaseResultMap" type="com.qimooc.mvc.base.model.User">
+		<id column="user_id" property="user_id" jdbcType="INTEGER" />
+		<result column="user_name" property="user_name" jdbcType="VARCHAR" />
+		<result column="real_name" property="real_name" jdbcType="VARCHAR" />
+		<result column="gender" property="gender" jdbcType="CHAR" />
+		<result column="mobile_phone" property="mobile_phone" jdbcType="VARCHAR" />
+		<result column="is_valid_phone" property="is_valid_phone" jdbcType="CHAR" />
+		<result column="email" property="email" jdbcType="VARCHAR" />
+		<result column="is_valid_email" property="is_valid_email" jdbcType="CHAR" />
+		<result column="weixin_unionid" property="weixin_unionid" jdbcType="VARCHAR" />
+		<result column="weixin_appid" property="weixin_appid" jdbcType="VARCHAR" />
+		<result column="weixin_openid" property="weixin_openid" jdbcType="VARCHAR" />
+		<result column="inner_id" property="inner_id" jdbcType="VARCHAR" />
+		<result column="site_id" property="site_id" jdbcType="INTEGER" />
+		<result column="dept_id" property="dept_id" jdbcType="INTEGER" />
+		<result column="img_url" property="img_url" jdbcType="VARCHAR" />
+		<result column="source_id" property="source_id" jdbcType="INTEGER" />
+		<result column="password" property="password" jdbcType="VARCHAR" />
+		<result column="salt" property="salt" jdbcType="VARCHAR" />
+		<result column="national_id" property="national_id" jdbcType="VARCHAR" />
+		<result column="is_expired" property="is_expired" jdbcType="CHAR" />
+		<result column="expire_date" property="expire_date" jdbcType="TIMESTAMP" />
+		<result column="entry_date" property="entry_date" jdbcType="TIMESTAMP" />
+		<result column="new_employee_day" property="new_employee_day" jdbcType="INTEGER" />
+		<result column="is_new_employee" property="is_new_employee" jdbcType="CHAR" />
+		<result column="post_id" property="post_id" jdbcType="INTEGER" />
+		<result column="agent_code" property="agent_code" jdbcType="VARCHAR" />
+		<result column="register_type" property="register_type" jdbcType="VARCHAR" />
+		<result column="is_hidden_layout_guide" property="is_hidden_layout_guide" jdbcType="CHAR" />
+		<result column="is_hidden_app_guide" property="is_hidden_app_guide" jdbcType="CHAR" />
+		<result column="create_date" property="create_date" jdbcType="TIMESTAMP" />
+		<result column="created_by" property="created_by" jdbcType="INTEGER" />
+		<result column="last_update_date" property="last_update_date" jdbcType="TIMESTAMP" />
+		<result column="last_updated_by" property="last_updated_by" jdbcType="INTEGER" />
+	</resultMap>
+
+	<select id="selectDemoByPage" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+		SELECT
+		*
+		FROM ut_user uu
+		where uu.site_id = #{user.site_id}
+		<if test="orderByClause !=null and orderByClause!=''">
+			order by ${orderByClause}
+		</if>
+		limit ${pageList.offset}, ${pageList.rowNumLimit}
+	</select>
+
+	<select id="selectDemoByPageTotalRecords" resultType="int" parameterType="java.util.HashMap">
+		SELECT count(1) FROM ut_user where
+		site_id = #{user.site_id}
+	</select>
+
+
+</mapper>

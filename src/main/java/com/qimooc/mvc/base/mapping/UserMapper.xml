@@ -1,0 +1,672 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qimooc.mvc.base.dao.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.qimooc.mvc.base.model.User" >
+    <id column="user_id" property="user_id" jdbcType="INTEGER" />
+    <result column="user_name" property="user_name" jdbcType="VARCHAR" />
+    <result column="real_name" property="real_name" jdbcType="VARCHAR" />
+    <result column="company_name" property="company_name" jdbcType="VARCHAR" />
+    <result column="gender" property="gender" jdbcType="CHAR" />
+    <result column="mobile_phone" property="mobile_phone" jdbcType="VARCHAR" />
+    <result column="is_valid_phone" property="is_valid_phone" jdbcType="CHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="is_valid_email" property="is_valid_email" jdbcType="CHAR" />
+    <result column="weixin_unionid" property="weixin_unionid" jdbcType="VARCHAR" />
+    <result column="weixin_appid" property="weixin_appid" jdbcType="VARCHAR" />
+    <result column="weixin_openid" property="weixin_openid" jdbcType="VARCHAR" />
+    <result column="inner_id" property="inner_id" jdbcType="VARCHAR" />
+    <result column="site_id" property="site_id" jdbcType="INTEGER" />
+    <result column="dept_id" property="dept_id" jdbcType="INTEGER" />
+    <result column="img_url" property="img_url" jdbcType="VARCHAR" />
+    <result column="source_id" property="source_id" jdbcType="INTEGER" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="salt" property="salt" jdbcType="VARCHAR" />
+    <result column="national_id" property="national_id" jdbcType="VARCHAR" />
+    <result column="is_expired" property="is_expired" jdbcType="CHAR" />
+    <result column="expire_date" property="expire_date" jdbcType="TIMESTAMP" />
+    <result column="entry_date" property="entry_date" jdbcType="TIMESTAMP" />
+    <result column="new_employee_day" property="new_employee_day" jdbcType="INTEGER" />
+    <result column="is_new_employee" property="is_new_employee" jdbcType="CHAR" />
+    <result column="post_id" property="post_id" jdbcType="INTEGER" />
+    <result column="agent_code" property="agent_code" jdbcType="VARCHAR" />
+    <result column="register_type" property="register_type" jdbcType="VARCHAR" />
+    <result column="is_hidden_layout_guide" property="is_hidden_layout_guide" jdbcType="CHAR" />
+    <result column="is_hidden_app_guide" property="is_hidden_app_guide" jdbcType="CHAR" />
+    <result column="create_date" property="create_date" jdbcType="TIMESTAMP" />
+    <result column="created_by" property="created_by" jdbcType="INTEGER" />
+    <result column="last_update_date" property="last_update_date" jdbcType="TIMESTAMP" />
+    <result column="last_updated_by" property="last_updated_by" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    user_id, user_name, real_name, company_name, gender, mobile_phone, is_valid_phone, 
+    email, is_valid_email, weixin_unionid, weixin_appid, weixin_openid, inner_id, site_id, 
+    dept_id, img_url, source_id, password, salt, national_id, is_expired, expire_date, 
+    entry_date, new_employee_day, is_new_employee, post_id, agent_code, register_type, 
+    is_hidden_layout_guide, is_hidden_app_guide, create_date, created_by, last_update_date, 
+    last_updated_by
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.qimooc.mvc.base.model.UserCriteria" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from ut_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from ut_user
+    where user_id = #{user_id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from ut_user
+    where user_id = #{user_id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.qimooc.mvc.base.model.UserCriteria" >
+    delete from ut_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.qimooc.mvc.base.model.User" >
+    <selectKey resultType="java.lang.Integer" keyProperty="user_id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into ut_user (user_name, real_name, company_name, 
+      gender, mobile_phone, is_valid_phone, 
+      email, is_valid_email, weixin_unionid, 
+      weixin_appid, weixin_openid, inner_id, 
+      site_id, dept_id, img_url, 
+      source_id, password, salt, 
+      national_id, is_expired, expire_date, 
+      entry_date, new_employee_day, is_new_employee, 
+      post_id, agent_code, register_type, 
+      is_hidden_layout_guide, is_hidden_app_guide, 
+      create_date, created_by, last_update_date, 
+      last_updated_by)
+    values (#{user_name,jdbcType=VARCHAR}, #{real_name,jdbcType=VARCHAR}, #{company_name,jdbcType=VARCHAR}, 
+      #{gender,jdbcType=CHAR}, #{mobile_phone,jdbcType=VARCHAR}, #{is_valid_phone,jdbcType=CHAR}, 
+      #{email,jdbcType=VARCHAR}, #{is_valid_email,jdbcType=CHAR}, #{weixin_unionid,jdbcType=VARCHAR}, 
+      #{weixin_appid,jdbcType=VARCHAR}, #{weixin_openid,jdbcType=VARCHAR}, #{inner_id,jdbcType=VARCHAR}, 
+      #{site_id,jdbcType=INTEGER}, #{dept_id,jdbcType=INTEGER}, #{img_url,jdbcType=VARCHAR}, 
+      #{source_id,jdbcType=INTEGER}, #{password,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, 
+      #{national_id,jdbcType=VARCHAR}, #{is_expired,jdbcType=CHAR}, #{expire_date,jdbcType=TIMESTAMP}, 
+      #{entry_date,jdbcType=TIMESTAMP}, #{new_employee_day,jdbcType=INTEGER}, #{is_new_employee,jdbcType=CHAR}, 
+      #{post_id,jdbcType=INTEGER}, #{agent_code,jdbcType=VARCHAR}, #{register_type,jdbcType=VARCHAR}, 
+      #{is_hidden_layout_guide,jdbcType=CHAR}, #{is_hidden_app_guide,jdbcType=CHAR}, 
+      #{create_date,jdbcType=TIMESTAMP}, #{created_by,jdbcType=INTEGER}, #{last_update_date,jdbcType=TIMESTAMP}, 
+      #{last_updated_by,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qimooc.mvc.base.model.User" >
+    <selectKey resultType="java.lang.Integer" keyProperty="user_id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into ut_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="user_name != null" >
+        user_name,
+      </if>
+      <if test="real_name != null" >
+        real_name,
+      </if>
+      <if test="company_name != null" >
+        company_name,
+      </if>
+      <if test="gender != null" >
+        gender,
+      </if>
+      <if test="mobile_phone != null" >
+        mobile_phone,
+      </if>
+      <if test="is_valid_phone != null" >
+        is_valid_phone,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="is_valid_email != null" >
+        is_valid_email,
+      </if>
+      <if test="weixin_unionid != null" >
+        weixin_unionid,
+      </if>
+      <if test="weixin_appid != null" >
+        weixin_appid,
+      </if>
+      <if test="weixin_openid != null" >
+        weixin_openid,
+      </if>
+      <if test="inner_id != null" >
+        inner_id,
+      </if>
+      <if test="site_id != null" >
+        site_id,
+      </if>
+      <if test="dept_id != null" >
+        dept_id,
+      </if>
+      <if test="img_url != null" >
+        img_url,
+      </if>
+      <if test="source_id != null" >
+        source_id,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="salt != null" >
+        salt,
+      </if>
+      <if test="national_id != null" >
+        national_id,
+      </if>
+      <if test="is_expired != null" >
+        is_expired,
+      </if>
+      <if test="expire_date != null" >
+        expire_date,
+      </if>
+      <if test="entry_date != null" >
+        entry_date,
+      </if>
+      <if test="new_employee_day != null" >
+        new_employee_day,
+      </if>
+      <if test="is_new_employee != null" >
+        is_new_employee,
+      </if>
+      <if test="post_id != null" >
+        post_id,
+      </if>
+      <if test="agent_code != null" >
+        agent_code,
+      </if>
+      <if test="register_type != null" >
+        register_type,
+      </if>
+      <if test="is_hidden_layout_guide != null" >
+        is_hidden_layout_guide,
+      </if>
+      <if test="is_hidden_app_guide != null" >
+        is_hidden_app_guide,
+      </if>
+      <if test="create_date != null" >
+        create_date,
+      </if>
+      <if test="created_by != null" >
+        created_by,
+      </if>
+      <if test="last_update_date != null" >
+        last_update_date,
+      </if>
+      <if test="last_updated_by != null" >
+        last_updated_by,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="user_name != null" >
+        #{user_name,jdbcType=VARCHAR},
+      </if>
+      <if test="real_name != null" >
+        #{real_name,jdbcType=VARCHAR},
+      </if>
+      <if test="company_name != null" >
+        #{company_name,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        #{gender,jdbcType=CHAR},
+      </if>
+      <if test="mobile_phone != null" >
+        #{mobile_phone,jdbcType=VARCHAR},
+      </if>
+      <if test="is_valid_phone != null" >
+        #{is_valid_phone,jdbcType=CHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="is_valid_email != null" >
+        #{is_valid_email,jdbcType=CHAR},
+      </if>
+      <if test="weixin_unionid != null" >
+        #{weixin_unionid,jdbcType=VARCHAR},
+      </if>
+      <if test="weixin_appid != null" >
+        #{weixin_appid,jdbcType=VARCHAR},
+      </if>
+      <if test="weixin_openid != null" >
+        #{weixin_openid,jdbcType=VARCHAR},
+      </if>
+      <if test="inner_id != null" >
+        #{inner_id,jdbcType=VARCHAR},
+      </if>
+      <if test="site_id != null" >
+        #{site_id,jdbcType=INTEGER},
+      </if>
+      <if test="dept_id != null" >
+        #{dept_id,jdbcType=INTEGER},
+      </if>
+      <if test="img_url != null" >
+        #{img_url,jdbcType=VARCHAR},
+      </if>
+      <if test="source_id != null" >
+        #{source_id,jdbcType=INTEGER},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="salt != null" >
+        #{salt,jdbcType=VARCHAR},
+      </if>
+      <if test="national_id != null" >
+        #{national_id,jdbcType=VARCHAR},
+      </if>
+      <if test="is_expired != null" >
+        #{is_expired,jdbcType=CHAR},
+      </if>
+      <if test="expire_date != null" >
+        #{expire_date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="entry_date != null" >
+        #{entry_date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="new_employee_day != null" >
+        #{new_employee_day,jdbcType=INTEGER},
+      </if>
+      <if test="is_new_employee != null" >
+        #{is_new_employee,jdbcType=CHAR},
+      </if>
+      <if test="post_id != null" >
+        #{post_id,jdbcType=INTEGER},
+      </if>
+      <if test="agent_code != null" >
+        #{agent_code,jdbcType=VARCHAR},
+      </if>
+      <if test="register_type != null" >
+        #{register_type,jdbcType=VARCHAR},
+      </if>
+      <if test="is_hidden_layout_guide != null" >
+        #{is_hidden_layout_guide,jdbcType=CHAR},
+      </if>
+      <if test="is_hidden_app_guide != null" >
+        #{is_hidden_app_guide,jdbcType=CHAR},
+      </if>
+      <if test="create_date != null" >
+        #{create_date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="created_by != null" >
+        #{created_by,jdbcType=INTEGER},
+      </if>
+      <if test="last_update_date != null" >
+        #{last_update_date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="last_updated_by != null" >
+        #{last_updated_by,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.qimooc.mvc.base.model.UserCriteria" resultType="java.lang.Integer" >
+    select count(*) from ut_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update ut_user
+    <set >
+      <if test="record.user_id != null" >
+        user_id = #{record.user_id,jdbcType=INTEGER},
+      </if>
+      <if test="record.user_name != null" >
+        user_name = #{record.user_name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.real_name != null" >
+        real_name = #{record.real_name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.company_name != null" >
+        company_name = #{record.company_name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gender != null" >
+        gender = #{record.gender,jdbcType=CHAR},
+      </if>
+      <if test="record.mobile_phone != null" >
+        mobile_phone = #{record.mobile_phone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.is_valid_phone != null" >
+        is_valid_phone = #{record.is_valid_phone,jdbcType=CHAR},
+      </if>
+      <if test="record.email != null" >
+        email = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.is_valid_email != null" >
+        is_valid_email = #{record.is_valid_email,jdbcType=CHAR},
+      </if>
+      <if test="record.weixin_unionid != null" >
+        weixin_unionid = #{record.weixin_unionid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.weixin_appid != null" >
+        weixin_appid = #{record.weixin_appid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.weixin_openid != null" >
+        weixin_openid = #{record.weixin_openid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inner_id != null" >
+        inner_id = #{record.inner_id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.site_id != null" >
+        site_id = #{record.site_id,jdbcType=INTEGER},
+      </if>
+      <if test="record.dept_id != null" >
+        dept_id = #{record.dept_id,jdbcType=INTEGER},
+      </if>
+      <if test="record.img_url != null" >
+        img_url = #{record.img_url,jdbcType=VARCHAR},
+      </if>
+      <if test="record.source_id != null" >
+        source_id = #{record.source_id,jdbcType=INTEGER},
+      </if>
+      <if test="record.password != null" >
+        password = #{record.password,jdbcType=VARCHAR},
+      </if>
+      <if test="record.salt != null" >
+        salt = #{record.salt,jdbcType=VARCHAR},
+      </if>
+      <if test="record.national_id != null" >
+        national_id = #{record.national_id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.is_expired != null" >
+        is_expired = #{record.is_expired,jdbcType=CHAR},
+      </if>
+      <if test="record.expire_date != null" >
+        expire_date = #{record.expire_date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.entry_date != null" >
+        entry_date = #{record.entry_date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.new_employee_day != null" >
+        new_employee_day = #{record.new_employee_day,jdbcType=INTEGER},
+      </if>
+      <if test="record.is_new_employee != null" >
+        is_new_employee = #{record.is_new_employee,jdbcType=CHAR},
+      </if>
+      <if test="record.post_id != null" >
+        post_id = #{record.post_id,jdbcType=INTEGER},
+      </if>
+      <if test="record.agent_code != null" >
+        agent_code = #{record.agent_code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.register_type != null" >
+        register_type = #{record.register_type,jdbcType=VARCHAR},
+      </if>
+      <if test="record.is_hidden_layout_guide != null" >
+        is_hidden_layout_guide = #{record.is_hidden_layout_guide,jdbcType=CHAR},
+      </if>
+      <if test="record.is_hidden_app_guide != null" >
+        is_hidden_app_guide = #{record.is_hidden_app_guide,jdbcType=CHAR},
+      </if>
+      <if test="record.create_date != null" >
+        create_date = #{record.create_date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.created_by != null" >
+        created_by = #{record.created_by,jdbcType=INTEGER},
+      </if>
+      <if test="record.last_update_date != null" >
+        last_update_date = #{record.last_update_date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.last_updated_by != null" >
+        last_updated_by = #{record.last_updated_by,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update ut_user
+    set user_id = #{record.user_id,jdbcType=INTEGER},
+      user_name = #{record.user_name,jdbcType=VARCHAR},
+      real_name = #{record.real_name,jdbcType=VARCHAR},
+      company_name = #{record.company_name,jdbcType=VARCHAR},
+      gender = #{record.gender,jdbcType=CHAR},
+      mobile_phone = #{record.mobile_phone,jdbcType=VARCHAR},
+      is_valid_phone = #{record.is_valid_phone,jdbcType=CHAR},
+      email = #{record.email,jdbcType=VARCHAR},
+      is_valid_email = #{record.is_valid_email,jdbcType=CHAR},
+      weixin_unionid = #{record.weixin_unionid,jdbcType=VARCHAR},
+      weixin_appid = #{record.weixin_appid,jdbcType=VARCHAR},
+      weixin_openid = #{record.weixin_openid,jdbcType=VARCHAR},
+      inner_id = #{record.inner_id,jdbcType=VARCHAR},
+      site_id = #{record.site_id,jdbcType=INTEGER},
+      dept_id = #{record.dept_id,jdbcType=INTEGER},
+      img_url = #{record.img_url,jdbcType=VARCHAR},
+      source_id = #{record.source_id,jdbcType=INTEGER},
+      password = #{record.password,jdbcType=VARCHAR},
+      salt = #{record.salt,jdbcType=VARCHAR},
+      national_id = #{record.national_id,jdbcType=VARCHAR},
+      is_expired = #{record.is_expired,jdbcType=CHAR},
+      expire_date = #{record.expire_date,jdbcType=TIMESTAMP},
+      entry_date = #{record.entry_date,jdbcType=TIMESTAMP},
+      new_employee_day = #{record.new_employee_day,jdbcType=INTEGER},
+      is_new_employee = #{record.is_new_employee,jdbcType=CHAR},
+      post_id = #{record.post_id,jdbcType=INTEGER},
+      agent_code = #{record.agent_code,jdbcType=VARCHAR},
+      register_type = #{record.register_type,jdbcType=VARCHAR},
+      is_hidden_layout_guide = #{record.is_hidden_layout_guide,jdbcType=CHAR},
+      is_hidden_app_guide = #{record.is_hidden_app_guide,jdbcType=CHAR},
+      create_date = #{record.create_date,jdbcType=TIMESTAMP},
+      created_by = #{record.created_by,jdbcType=INTEGER},
+      last_update_date = #{record.last_update_date,jdbcType=TIMESTAMP},
+      last_updated_by = #{record.last_updated_by,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qimooc.mvc.base.model.User" >
+    update ut_user
+    <set >
+      <if test="user_name != null" >
+        user_name = #{user_name,jdbcType=VARCHAR},
+      </if>
+      <if test="real_name != null" >
+        real_name = #{real_name,jdbcType=VARCHAR},
+      </if>
+      <if test="company_name != null" >
+        company_name = #{company_name,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        gender = #{gender,jdbcType=CHAR},
+      </if>
+      <if test="mobile_phone != null" >
+        mobile_phone = #{mobile_phone,jdbcType=VARCHAR},
+      </if>
+      <if test="is_valid_phone != null" >
+        is_valid_phone = #{is_valid_phone,jdbcType=CHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="is_valid_email != null" >
+        is_valid_email = #{is_valid_email,jdbcType=CHAR},
+      </if>
+      <if test="weixin_unionid != null" >
+        weixin_unionid = #{weixin_unionid,jdbcType=VARCHAR},
+      </if>
+      <if test="weixin_appid != null" >
+        weixin_appid = #{weixin_appid,jdbcType=VARCHAR},
+      </if>
+      <if test="weixin_openid != null" >
+        weixin_openid = #{weixin_openid,jdbcType=VARCHAR},
+      </if>
+      <if test="inner_id != null" >
+        inner_id = #{inner_id,jdbcType=VARCHAR},
+      </if>
+      <if test="site_id != null" >
+        site_id = #{site_id,jdbcType=INTEGER},
+      </if>
+      <if test="dept_id != null" >
+        dept_id = #{dept_id,jdbcType=INTEGER},
+      </if>
+      <if test="img_url != null" >
+        img_url = #{img_url,jdbcType=VARCHAR},
+      </if>
+      <if test="source_id != null" >
+        source_id = #{source_id,jdbcType=INTEGER},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="salt != null" >
+        salt = #{salt,jdbcType=VARCHAR},
+      </if>
+      <if test="national_id != null" >
+        national_id = #{national_id,jdbcType=VARCHAR},
+      </if>
+      <if test="is_expired != null" >
+        is_expired = #{is_expired,jdbcType=CHAR},
+      </if>
+      <if test="expire_date != null" >
+        expire_date = #{expire_date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="entry_date != null" >
+        entry_date = #{entry_date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="new_employee_day != null" >
+        new_employee_day = #{new_employee_day,jdbcType=INTEGER},
+      </if>
+      <if test="is_new_employee != null" >
+        is_new_employee = #{is_new_employee,jdbcType=CHAR},
+      </if>
+      <if test="post_id != null" >
+        post_id = #{post_id,jdbcType=INTEGER},
+      </if>
+      <if test="agent_code != null" >
+        agent_code = #{agent_code,jdbcType=VARCHAR},
+      </if>
+      <if test="register_type != null" >
+        register_type = #{register_type,jdbcType=VARCHAR},
+      </if>
+      <if test="is_hidden_layout_guide != null" >
+        is_hidden_layout_guide = #{is_hidden_layout_guide,jdbcType=CHAR},
+      </if>
+      <if test="is_hidden_app_guide != null" >
+        is_hidden_app_guide = #{is_hidden_app_guide,jdbcType=CHAR},
+      </if>
+      <if test="create_date != null" >
+        create_date = #{create_date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="created_by != null" >
+        created_by = #{created_by,jdbcType=INTEGER},
+      </if>
+      <if test="last_update_date != null" >
+        last_update_date = #{last_update_date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="last_updated_by != null" >
+        last_updated_by = #{last_updated_by,jdbcType=INTEGER},
+      </if>
+    </set>
+    where user_id = #{user_id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qimooc.mvc.base.model.User" >
+    update ut_user
+    set user_name = #{user_name,jdbcType=VARCHAR},
+      real_name = #{real_name,jdbcType=VARCHAR},
+      company_name = #{company_name,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=CHAR},
+      mobile_phone = #{mobile_phone,jdbcType=VARCHAR},
+      is_valid_phone = #{is_valid_phone,jdbcType=CHAR},
+      email = #{email,jdbcType=VARCHAR},
+      is_valid_email = #{is_valid_email,jdbcType=CHAR},
+      weixin_unionid = #{weixin_unionid,jdbcType=VARCHAR},
+      weixin_appid = #{weixin_appid,jdbcType=VARCHAR},
+      weixin_openid = #{weixin_openid,jdbcType=VARCHAR},
+      inner_id = #{inner_id,jdbcType=VARCHAR},
+      site_id = #{site_id,jdbcType=INTEGER},
+      dept_id = #{dept_id,jdbcType=INTEGER},
+      img_url = #{img_url,jdbcType=VARCHAR},
+      source_id = #{source_id,jdbcType=INTEGER},
+      password = #{password,jdbcType=VARCHAR},
+      salt = #{salt,jdbcType=VARCHAR},
+      national_id = #{national_id,jdbcType=VARCHAR},
+      is_expired = #{is_expired,jdbcType=CHAR},
+      expire_date = #{expire_date,jdbcType=TIMESTAMP},
+      entry_date = #{entry_date,jdbcType=TIMESTAMP},
+      new_employee_day = #{new_employee_day,jdbcType=INTEGER},
+      is_new_employee = #{is_new_employee,jdbcType=CHAR},
+      post_id = #{post_id,jdbcType=INTEGER},
+      agent_code = #{agent_code,jdbcType=VARCHAR},
+      register_type = #{register_type,jdbcType=VARCHAR},
+      is_hidden_layout_guide = #{is_hidden_layout_guide,jdbcType=CHAR},
+      is_hidden_app_guide = #{is_hidden_app_guide,jdbcType=CHAR},
+      create_date = #{create_date,jdbcType=TIMESTAMP},
+      created_by = #{created_by,jdbcType=INTEGER},
+      last_update_date = #{last_update_date,jdbcType=TIMESTAMP},
+      last_updated_by = #{last_updated_by,jdbcType=INTEGER}
+    where user_id = #{user_id,jdbcType=INTEGER}
+  </update>
+</mapper>
